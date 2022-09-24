@@ -1,7 +1,7 @@
-local ME = "Username"
+local ME = game.Players.LocalPlayer.Name
 local UI = Instance.new("ScreenGui")
 UI.Enabled = true
-UI.Parent = game.Players[ME].PlayerGui
+UI.Parent = game:GetService("CoreGui")
 local Frame = Instance.new("Frame")
 Frame.Position = UDim2.new(0.792, 0,0.068, 0)
 Frame.Size = UDim2.new(0.113, 0,0.824, 0)
@@ -18,7 +18,6 @@ button.Size = UDim2.new(1,0,0.079,0)
 local Sett = Instance.new("Frame",UI)
 Sett.Position = UDim2.new(0.63, 0,0.068, 0)
 Sett.Size = UDim2.new(0.149, 0,0.475, 0)
-
 Sett.Name = "User"
 local PIC = Instance.new("ImageLabel")
 PIC.Position = UDim2.new(0,0,-0,0)
@@ -51,60 +50,6 @@ S.Parent = UI
 
 for i , plrs in pairs(Players:GetChildren()) do
 	if plrs.Name ~= ME then
-	local clone = Frame:FindFirstChildOfClass("TextButton"):Clone()
-
-	wait(1)
-	clone.Visible = true
-		clone.Text = plrs.Name
-		clone.Parent = Frame
-	
-	clone.MouseButton1Click:Connect(function()
-		
-		local PICID = Players:GetUserThumbnailAsync(Players[clone.Text].UserId,Enum.ThumbnailType.AvatarBust,Enum.ThumbnailSize.Size420x420)
-Targetname.Text = clone.Text
-		PIC.Image = PICID 
-	end)
-	Teleport.MouseButton1Click:Connect(function()
-		print(Targetname.Text)
-		game.Players[ME].Character.Head.CFrame = CFrame.new(Players[Targetname.Text].Character.Head.Position.X + 4,Players[Targetname.Text].Character.Head.Position.Y,Players[Targetname.Text].Character.Head.Position.Z )
-	end)
-		Track.MouseButton1Click:Connect(function()
-			if not Players[Targetname.Text].Character.Highlight then
-		local High = Instance.new("Highlight")
-				High.Parent = Players[Targetname.Text].Character
-				end
-	end)
-	Watch.MouseButton1Click:Connect(function()
-		if workspace.Camera.CameraType ~= Enum.CameraType.Scriptable then
-			workspace.Camera.CameraType = Enum.CameraType.Scriptable
-		wait(1)
-			workspace.Camera.CFrame = Players[Targetname.Text].Head.CFrame
-		else
-			workspace.Camera.CameraType = Enum.CameraType.Custom
-
-			end
-	end)
-	S.MouseButton1Click:Connect(function()
-		if Sett.Visible == false then
-			Sett.Visible = true
-			Frame.Visible = true
-		else
-			Frame.Visible = false
-			Sett.Visible = false
-		end
-		end)
-		end
-end
-Players.Changed:Connect(function()
-for i , plrs in pairs(Frame:GetChildren()) do
-	if plrs.Name ~= ME then
-	if plrs:IsA("TextButton") then
-		plrs:Destroy()
-	end
-
-
-	end
-	for i , plrs in pairs(Players:GetChildren()) do
 		local clone = Frame:FindFirstChildOfClass("TextButton"):Clone()
 
 		wait(1)
@@ -124,17 +69,17 @@ for i , plrs in pairs(Frame:GetChildren()) do
 		end)
 		Track.MouseButton1Click:Connect(function()
 			if not Players[Targetname.Text].Character.Highlight then
-			local High = Instance.new("Highlight")
+				local High = Instance.new("Highlight")
 				High.Parent = Players[Targetname.Text].Character
-				end
+			end
 		end)
 		Watch.MouseButton1Click:Connect(function()
-			if workspace.CurrentCamera.CameraType ~= Enum.CameraType.Scriptable then
-				workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+			if workspace.Camera.CameraType ~= Enum.CameraType.Scriptable then
+				workspace.Camera.CameraType = Enum.CameraType.Scriptable
 				wait(1)
-				workspace.CurrentCamera.CFrame = Players[Targetname.Text].Head.CFrame
+				workspace.Camera.CFrame = Players[Targetname.Text].Character.Head.CFrame
 			else
-				workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+				workspace.Camera.CameraType = Enum.CameraType.Custom
 
 			end
 		end)
@@ -144,9 +89,62 @@ for i , plrs in pairs(Frame:GetChildren()) do
 				Frame.Visible = true
 			else
 				Frame.Visible = false
-				Sett.Visible = false 
+				Sett.Visible = false
 			end
+		end)
+	end
+end
+Players.Changed:Connect(function()
+	for i , plrs in pairs(Frame:GetChildren()) do
+		if plrs.Name ~= ME then
+			if plrs:IsA("TextButton") then
+				plrs:Destroy()
+			end
+
+
+		end
+		for i , plrs in pairs(Players:GetChildren()) do
+			local clone = Frame:FindFirstChildOfClass("TextButton"):Clone()
+
+			wait(1)
+			clone.Visible = true
+			clone.Text = plrs.Name
+			clone.Parent = Frame
+
+			clone.MouseButton1Click:Connect(function()
+
+				local PICID = Players:GetUserThumbnailAsync(Players[clone.Text].UserId,Enum.ThumbnailType.AvatarBust,Enum.ThumbnailSize.Size420x420)
+				Targetname.Text = clone.Text
+				PIC.Image = PICID 
 			end)
-			end
+			Teleport.MouseButton1Click:Connect(function()
+				game.Players[ME].Character.Head.CFrame = CFrame.new(Players[Targetname.Text].Character.Head.Position.X + 4,Players[Targetname.Text].Character.Head.Position.Y,Players[Targetname.Text].Character.Head.Position.Z )
+			end)
+			Track.MouseButton1Click:Connect(function()
+				if not Players[Targetname.Text].Character.Highlight then
+					local High = Instance.new("Highlight")
+					High.Parent = Players[Targetname.Text].Character
+				end
+			end)
+			Watch.MouseButton1Click:Connect(function()
+				if workspace.CurrentCamera.CameraType ~= Enum.CameraType.Scriptable then
+					workspace.CurrentCamera.CameraType = Enum.CameraType.Scriptable
+					wait(1)
+					workspace.CurrentCamera.CFrame = Players[Targetname.Text].Character.Head.CFrame
+				else
+					workspace.CurrentCamera.CameraType = Enum.CameraType.Custom
+
+				end
+			end)
+			S.MouseButton1Click:Connect(function()
+				if Sett.Visible == false then
+					Sett.Visible = true
+					Frame.Visible = true
+				else
+					Frame.Visible = false
+					Sett.Visible = false 
+				end
+			end)
+		end
 	end
 end)
